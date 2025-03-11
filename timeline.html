@@ -425,8 +425,14 @@
         
         events.forEach(event => {
             // 創建事件元素
+            const companyClassMap = {
+                '迪士尼': 'disney',
+                'Netflix': 'netflix',
+                '共同': 'common'
+            };
+            
             const eventElement = document.createElement('div');
-            eventElement.className = `event event-${event.company.toLowerCase()}`;
+            eventElement.className = `event event-${companyClassMap[event.company]}`;
             if (event.isImportant) {
                 eventElement.classList.add('event-important');
             }
