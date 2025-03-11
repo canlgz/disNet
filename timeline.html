@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>迪士尼與Netflix發展時間軸</title>
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .description {
+            color: #666;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .legend {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 0 15px;
+        }
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        .legend-disney {
+            background-color: #1E40AF;
+        }
+        .legend-netflix {
+            background-color: #DC2626;
+        }
+        .legend-common {
+            background-color: #7E22CE;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+        }
+        .timeline::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 18px;
+            width: 4px;
+            background-color: #e5e5e5;
+        }
+        .event {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .event-dot {
+            position: absolute;
+            left: -50px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .event-dot.important {
+            width: 20px;
+            height: 20px;
+            left: -52px;
+            top: 3px;
+        }
+        .event-disney .event-dot {
+            background-color: #1E40AF;
+        }
+        .event-netflix .event-dot {
+            background-color: #DC2626;
+        }
+        .event-common .event-dot {
+            background-color: #7E22CE;
+        }
+        .event-card {
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        .event-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .event-disney .event-card {
+            background-color: #EFF6FF;
+            border-left: 4px solid #1E40AF;
+        }
+        .event-netflix .event-card {
+            background-color: #FEF2F2;
+            border-left: 4px solid #DC2626;
+        }
+        .event-common .event-card {
+            background-color: #F5F3FF;
+            border-left: 4px solid #7E22CE;
+        }
+        .event-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .event-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin: 0;
+        }
+        .event-important .event-title {
+            font-size: 20px;
+            color: #000;
+        }
+        .event-year {
+            padding: 4px 8px;
+            background-color: #e5e5e5;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .event-description {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #4B5563;
+        }
+        .event-details {
+            margin-top: 15px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding-top: 15px;
+            display: none;
+        }
+        .event-details h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        .event-details ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .event-details li {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .event-toggle {
+            margin-top: 10px;
+            text-align: right;
+            font-size: 13px;
+            color: #6B7280;
+            font-style: italic;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 14px;
+            color: #9CA3AF;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>迪士尼與Netflix發展時間軸</h1>
+        <p class="description">本時間軸呈現了迪士尼與Netflix從創立至今的關鍵發展事件，包含財務數據與重要里程碑</p>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color legend-disney"></div>
+                <span>迪士尼</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color legend-netflix"></div>
+                <span>Netflix</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color legend-common"></div>
+                <span>共同事件</span>
+            </div>
+        </div>
+        
+        <div class="timeline" id="timeline">
+            <!-- 時間軸事件將由JavaScript生成 -->
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 時間軸分析 | 資料更新至2024年10月</p>
+        </div>
+    </div>
+
+    <script>
+        // 時間軸事件數據
+        const events = [
+            {
+                year: "1923年",
+                title: "華特迪士尼公司成立",
+                description: "華特·迪士尼和洛伊·迪士尼在洛杉磯成立迪士尼兄弟卡通製片廠，開始製作《愛麗絲漫游仙境》系列短片。",
+                company: "迪士尼",
+                financialData: ["初始資本：3,200美元", "首年收入：約4,000美元", "員工人數：4人"],
+                isImportant: true
+            },
+            {
+                year: "1928年",
+                title: "米老鼠誕生",
+                description: "迪士尼創造了米老鼠角色，並在動畫短片《汽船威利號》中首次亮相，米老鼠很快成為全球知名卡通形象。",
+                company: "迪士尼",
+                financialData: ["《汽船威利號》製作成本：約4,986美元", "米老鼠IP到1930年代產值：每年超過100萬美元"],
+                isImportant: true
+            },
+            {
+                year: "1937年",
+                title: "《白雪公主與七個小矮人》上映",
+                description: "迪士尼推出首部全長動畫電影《白雪公主與七個小矮人》，獲得空前成功，奠定了迪士尼在動畫領域的領導地位。",
+                company: "迪士尼",
+                financialData: ["製作預算：1,488,423美元（當時史上最貴動畫）", "全球票房：超過8,000萬美元（相當於今天的13億美元）"],
+                isImportant: true
+            },
+            {
+                year: "1955年",
+                title: "第一座迪士尼樂園開幕",
+                description: "加州阿納海姆迪士尼樂園開幕，這是華特·迪士尼實現將動畫人物帶入現實世界的夢想，開創了主題樂園產業。",
+                company: "迪士尼",
+                financialData: ["初始投資：1,700萬美元", "首年遊客：超過100萬人", "門票價格：成人1美元，兒童50美分"],
+                isImportant: true
+            },
+            {
+                year: "1997年",
+                title: "Netflix成立",
+                description: "里德·哈斯廷斯和馬克·蘭道夫在加州成立Netflix，最初以DVD郵寄租賃服務起家。",
+                company: "Netflix",
+                financialData: ["初始投資：約250萬美元", "首年收入：不到100萬美元", "DVD庫存：約925部電影"],
+                isImportant: true
+            },
+            {
+                year: "2002年",
+                title: "Netflix IPO上市",
+                description: "Netflix在納斯達克上市，股票代碼NFLX，募集資金用於擴張業務和技術開發。",
+                company: "Netflix",
+                financialData: ["IPO價格：15美元/股", "首日收盤價：16.75美元/股", "募集資金：8,220萬美元", "訂閱用戶：約60萬"],
+                isImportant: false
+            },
+            {
+                year: "2006年",
+                title: "迪士尼收購皮克斯動畫工作室",
+                description: "迪士尼以74億美元收購皮克斯動畫工作室，獲得《玩具總動員》、《怪獸電力公司》等知名IP。",
+                company: "迪士尼",
+                financialData: ["收購金額：74億美元（全股票交易）", "皮克斯2005年收入：約2.89億美元", "收購後迪士尼動畫年產值：超過20億美元"],
+                isImportant: true
+            },
+            {
+                year: "2007年",
+                title: "Netflix推出串流媒體服務",
+                description: "Netflix開始提供線上串流媒體服務，使用戶能夠直接在網上觀看電影和電視節目，標誌著公司轉型的開始。",
+                company: "Netflix",
+                financialData: ["當年收入：12億美元", "訂閱用戶：約700萬", "可串流內容：約2,000部電影和電視節目", "DVD郵寄業務仍佔收入90%以上"],
+                isImportant: true
+            },
+            {
+                year: "2009年",
+                title: "迪士尼收購漫威娛樂",
+                description: "迪士尼以42.4億美元收購漫威娛樂，獲得鋼鐵人、美國隊長、雷神、蜘蛛人等超過5,000個漫畫角色的版權。",
+                company: "迪士尼",
+                financialData: ["收購金額：42.4億美元", "漫威2008年收入：約5.78億美元", "截至2024年，漫威電影宇宙總票房：超過300億美元"],
+                isImportant: true
+            },
+            {
+                year: "2012年",
+                title: "迪士尼收購盧卡斯影業",
+                description: "迪士尼以40.5億美元收購盧卡斯影業，獲得《星際大戰》和《印第安納瓊斯》等知名IP。",
+                company: "迪士尼",
+                financialData: ["收購金額：40.5億美元", "《星際大戰》IP估值：超過300億美元", "收購後《星際大戰》系列電影總票房：超過60億美元"],
+                isImportant: true
+            },
+            {
+                year: "2013年",
+                title: "Netflix推出《紙牌屋》",
+                description: "Netflix推出首部自製原創劇集《紙牌屋》，標誌著公司從內容分發商向內容創作者的轉型，開創了「一次性發布整季」的模式。",
+                company: "Netflix",
+                financialData: ["製作成本：約1億美元（兩季）", "當年新增訂閱用戶：超過200萬", "股價年增長：約297%", "艾美獎提名：9項"],
+                isImportant: true
+            },
+            {
+                year: "2014年",
+                title: "Netflix首推4K超高清內容",
+                description: "Netflix成為首批提供4K超高清串流內容的平台之一，率先在《紙牌屋》第二季中應用4K技術。",
+                company: "Netflix",
+                financialData: ["技術投資：約2億美元", "高級會員價格：11.99美元/月（比標準會員高3美元）", "網絡要求：至少15Mbps穩定連線"],
+                isImportant: false
+            },
+            {
+                year: "2016年",
+                title: "Netflix全球擴張",
+                description: "Netflix在CES大會上宣布同時向130個國家推出服務，實現全球化戰略，成為真正的全球性串流媒體平台。",
+                company: "Netflix",
+                financialData: ["當年國際拓展投資：約10億美元", "國際訂閱用戶：從3000萬增至4400萬", "全球本地化語言：超過20種"],
+                isImportant: true
+            },
+            {
+                year: "2016年",
+                title: "Netflix推出《怪奇物語》",
+                description: "Netflix推出原創科幻恐怖劇集《怪奇物語》，獲得巨大成功，成為平台標誌性IP，引領80年代懷舊風潮。",
+                company: "Netflix",
+                financialData: ["首季製作成本：約600萬美元/集", "第一個月觀看人數：超過1400萬", "帶動會員增長：約250萬", "第四季製作成本：約3000萬美元/集"],
+                isImportant: true
+            },
+            {
+                year: "2019年",
+                title: "迪士尼完成收購21世紀福斯",
+                description: "迪士尼以713億美元完成對21世紀福斯的收購，獲得《X戰警》、《阿凡達》、《辛普森家庭》等知名IP和Hulu部分控制權。",
+                company: "迪士尼",
+                financialData: ["收購金額：713億美元（當時史上最大娛樂業收購）", "福斯2018年收入：約300億美元", "收購後迪士尼IP組合市值：估計超過1000億美元"],
+                isImportant: true
+            },
+            {
+                year: "2019年11月",
+                title: "Disney+串流服務推出",
+                description: "迪士尼推出Disney+串流服務，正式加入串流媒體戰爭，首日用戶突破1000萬，提供迪士尼、皮克斯、漫威、星戰和國家地理等內容。",
+                company: "迪士尼",
+                financialData: ["首年投資：約24億美元", "首日用戶：1000萬+", "首月推出區域：美國、加拿大、荷蘭", "首月訂閱價格：6.99美元/月", "首年目標：6000萬訂戶"],
+                isImportant: true
+            },
+            {
+                year: "2019年",
+                title: "Netflix加大韓國內容投資",
+                description: "Netflix宣布大規模投資韓國原創內容，打造《王國》、《魷魚遊戲》等全球熱門韓劇，加強亞洲市場滲透。",
+                company: "Netflix",
+                financialData: ["韓國內容投資：約2.5億美元（2019年）", "韓國訂戶增長：約300萬（2019年全年）", "韓國工作室規模：從10人增至約120人"],
+                isImportant: false
+            },
+            {
+                year: "2021年",
+                title: "Netflix推出《魷魚遊戲》",
+                description: "Netflix發布韓國原創劇集《魷魚遊戲》，成為史上最成功的非英語作品，引發全球文化現象，證明了Netflix的國際內容戰略。",
+                company: "Netflix",
+                financialData: ["製作成本：約2100萬美元", "首月觀看：1.42億戶", "估計帶來收入：約9億美元", "新增訂戶貢獻：約450萬"],
+                isImportant: true
+            },
+            {
+                year: "2022年",
+                title: "Netflix首次用戶數下滑",
+                description: "Netflix公布季報顯示全球訂閱用戶首次出現下滑，損失約20萬訂戶，導致股價大跌35%，公司開始尋求新的增長點和收入來源。",
+                company: "Netflix",
+                financialData: ["股價下跌：單日超過35%", "市值蒸發：超過500億美元", "全球訂戶：2.215億（下降約20萬）", "北美每月ARPU：15.6美元"],
+                isImportant: true
+            },
+            {
+                year: "2022年12月",
+                title: "兩大串流巨頭推出廣告支援計劃",
+                description: "Disney+和Netflix先後推出低價廣告支援訂閱層，開拓新的收入來源，應對訂閱增長放緩的挑戰。",
+                company: "共同",
+                financialData: [
+                    "Disney+ 廣告版價格：7.99美元/月（無廣告版漲至10.99美元）", 
+                    "Netflix 廣告版價格：6.99美元/月（基本版9.99美元）",
+                    "Disney+首年廣告收入預期：7.5億美元",
+                    "Netflix首年廣告收入預期：約6億美元"
+                ],
+                isImportant: true
+            },
+            {
+                year: "2023年",
+                title: "迪士尼全面重組業務",
+                description: "鮑勃·艾格重返CEO職位後宣布大規模重組計劃，裁員7000人，節省55億美元成本，專注於串流媒體、主題樂園和電影業務。",
+                company: "迪士尼",
+                financialData: ["裁員規模：7000人（佔全球員工約3.5%）", "預計年度節省：55億美元", "重組成本：約14億美元", "2023財年營收：893億美元"],
+                isImportant: true
+            },
+            {
+                year: "2023年",
+                title: "Netflix打擊密碼共享",
+                description: "Netflix全面實施密碼共享限制政策，要求額外付費才能共享帳號，此舉初期引發爭議但最終帶來訂戶增長和收入提升。",
+                company: "Netflix",
+                financialData: ["額外成員價格：約每月7.99美元", "估計共享帳戶：超過1億", "政策實施後新增訂戶：2023年約2300萬", "第三季度營收增長：8%達到83億美元"],
+                isImportant: true
+            },
+            {
+                year: "2024年1月",
+                title: "迪士尼完全控制Hulu",
+                description: "迪士尼以87億美元收購康卡斯特持有的Hulu剩餘股份，獲得100%控制權，為其串流業務整合策略鋪路。",
+                company: "迪士尼",
+                financialData: ["收購金額：87億美元", "Hulu估值：270億美元", "整合計劃：在Disney+應用內提供Hulu內容", "組合訂閱ARPU：約11.5美元"],
+                isImportant: true
+            },
+            {
+                year: "2024年3月",
+                title: "迪士尼宣布投資19億美元收購Epic Games股份",
+                description: "迪士尼宣布投資19億美元收購Epic Games少數股權，計劃在《堡壘之夜》平台上建立迪士尼世界娛樂宇宙，深化遊戲領域拓展。",
+                company: "迪士尼",
+                financialData: ["投資金額：19億美元", "Epic Games估值：約320億美元", "計劃開發產品：遊戲、影視和消費產品", "《堡壘之夜》月活用戶：超過2億"],
+                isImportant: true
+            },
+            {
+                year: "2024年4月",
+                title: "Netflix公布2024年第一季度財報",
+                description: "Netflix公布強勁財報，新增950萬訂戶，營收同比增長15%，凸顯密碼共享打擊和廣告業務成功，股價創新高。",
+                company: "Netflix",
+                financialData: ["營收：94億美元（增長15%）", "淨利潤：20億美元（增長79%）", "全球訂戶：2.7億", "廣告層增長：65%", "每股收益：5.28美元"],
+                isImportant: true
+            }
+        ];
+
+        // 生成時間軸內容
+        const timeline = document.getElementById('timeline');
+        
+        events.forEach(event => {
+            // 創建事件元素
+            const eventElement = document.createElement('div');
+            eventElement.className = `event event-${event.company.toLowerCase()}`;
+            if (event.isImportant) {
+                eventElement.classList.add('event-important');
+            }
+            
+            // 創建事件圓點
+            const dot = document.createElement('div');
+            dot.className = `event-dot ${event.isImportant ? 'important' : ''}`;
+            eventElement.appendChild(dot);
+            
+            // 創建事件卡片
+            const card = document.createElement('div');
+            card.className = 'event-card';
+            
+            // 創建事件標題和年份
+            const header = document.createElement('div');
+            header.className = 'event-header';
+            
+            const title = document.createElement('h3');
+            title.className = 'event-title';
+            title.textContent = event.title;
+            
+            const year = document.createElement('span');
+            year.className = 'event-year';
+            year.textContent = event.year;
+            
+            header.appendChild(title);
+            header.appendChild(year);
+            
+            // 創建事件描述
+            const description = document.createElement('p');
+            description.className = 'event-description';
+            description.textContent = event.description;
+            
+            // 創建詳細資訊區域
+            const details = document.createElement('div');
+            details.className = 'event-details';
+            
+            const detailsTitle = document.createElement('h4');
+            detailsTitle.textContent = '財務/數據詳情：';
+            
+            const detailsList = document.createElement('ul');
+            event.financialData.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                detailsList.appendChild(li);
+            });
+            
+            details.appendChild(detailsTitle);
+            details.appendChild(detailsList);
+            
+            // 創建切換按鈕
+            const toggle = document.createElement('div');
+            toggle.className = 'event-toggle';
+            toggle.textContent = '點擊查看詳細數據';
+            
+            // 組合元素
+            card.appendChild(header);
+            card.appendChild(description);
+            card.appendChild(details);
+            card.appendChild(toggle);
+            
+            eventElement.appendChild(card);
+            timeline.appendChild(eventElement);
+            
+            // 添加點擊事件
+            card.addEventListener('click', function() {
+                if (details.style.display === 'block') {
+                    details.style.display = 'none';
+                    toggle.textContent = '點擊查看詳細數據';
+                } else {
+                    details.style.display = 'block';
+                    toggle.textContent = '點擊收起詳情';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
