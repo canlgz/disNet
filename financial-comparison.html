@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>迪士尼與Netflix財務與市場數據比較</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .description {
+            color: #666;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        @media (max-width: 992px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .chart-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .chart-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            text-align: center;
+        }
+        .chart-wrapper {
+            position: relative;
+            height: 350px;
+        }
+        .insights {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 40px;
+        }
+        .insights h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 22px;
+        }
+        .insights ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .insights li {
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        .insights .highlight {
+            font-weight: bold;
+            color: #1a56db;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 14px;
+            color: #999;
+        }
+        .company-colors {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .color-item {
+            display: flex;
+            align-items: center;
+            margin: 0 15px;
+        }
+        .color-box {
+            width: 16px;
+            height: 16px;
+            margin-right: 6px;
+            border-radius: 3px;
+        }
+        .disney-color {
+            background-color: #1E88E5;
+        }
+        .netflix-color {
+            background-color: #E53935;
+        }
+        .hulu-color {
+            background-color: #43A047;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>迪士尼與Netflix財務與市場數據比較</h1>
+        <p class="description">本分析比較兩大娛樂巨頭在營收、訂閱用戶、內容投資等方面的數據 (2019-2024)</p>
+        
+        <div class="company-colors">
+            <div class="color-item">
+                <div class="color-box disney-color"></div>
+                <span>迪士尼</span>
+            </div>
+            <div class="color-item">
+                <div class="color-box netflix-color"></div>
+                <span>Netflix</span>
+            </div>
+            <div class="color-item">
+                <div class="color-box hulu-color"></div>
+                <span>Hulu+ESPN+</span>
+            </div>
+        </div>
+        
+        <div class="charts-grid">
+            <div class="chart-container">
+                <div class="chart-title">年度營收比較 (百萬美元)</div>
+                <div class="chart-wrapper">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">串流訂閱用戶比較 (百萬)</div>
+                <div class="chart-wrapper">
+                    <canvas id="subscribersChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">內容支出比較 (百萬美元)</div>
+                <div class="chart-wrapper">
+                    <canvas id="contentSpendChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">市值比較 (十億美元)</div>
+                <div class="chart-wrapper">
+                    <canvas id="marketCapChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">迪士尼2024年收入來源分佈 (%)</div>
+                <div class="chart-wrapper">
+                    <canvas id="disneyRevenueSourcesChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">Netflix2024年收入來源分佈 (%)</div>
+                <div class="chart-wrapper">
+                    <canvas id="netflixRevenueSourcesChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <div class="chart-title">2024年各地區每月平均用戶收入 (美元)</div>
+            <div class="chart-wrapper">
+                <canvas id="arpuChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="insights">
+            <h2>關鍵財務洞察</h2>
+            <ul>
+                <li><span class="highlight">營收規模：</span>迪士尼總營收約為Netflix的2.5倍，但Netflix增長率更高（近年CAGR約13%）。2023年迪士尼營收達893億美元，而Netflix為335億美元。</li>
+                <li><span class="highlight">用戶基礎：</span>Netflix全球用戶超過2.7億，迪士尼三大串流服務（Disney+/Hulu/ESPN+）合計約2.4億。Netflix在用戶單價（ARPU）方面明顯領先，全球平均超過11美元。</li>
+                <li><span class="highlight">內容投資：</span>迪士尼在2022年達到峰值（約306億美元），之後縮減內容支出至2024年的約250億美元；Netflix內容支出保持相對穩定（約170億美元），顯示出不同的內容策略。</li>
+                <li><span class="highlight">收入多元化：</span>迪士尼收入來源多元（主題樂園31.9%、媒體與娛樂37.2%、串流服務22.8%、消費產品8.1%），而Netflix收入高度依賴訂閱費（約94%），僅有少量廣告收入（2.5%）和其他業務（3.5%）。</li>
+                <li><span class="highlight">市值表現：</span>2024年Netflix市值（約245十億美元）超過迪士尼（約195十億美元），反映投資者對數位媒體和串流業務的樂觀預期，以及Netflix在這一領域的領導地位。</li>
+                <li><span class="highlight">每用戶收入：</span>Netflix ARPU全球平均高於Disney+，特別是北美地區相差顯著（16.8美元 vs 7.5美元），顯示Netflix的溢價能力更強。在亞太區域差距相對較小，反映市場競爭和本地化定價策略。</li>
+                <li><span class="highlight">趨勢展望：</span>兩家公司都已採取廣告支援模式增加收入來源；迪士尼將資源集中在高利潤率的主題樂園和精簡運營；Netflix則強化原創內容策略和控制製作成本，並拓展遊戲和直播業務。</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 財務數據分析 | 資料來源：公司財報、行業報告 | 更新至2024年10月</p>
+        </div>
+    </div>
+
+    <script>
+        // 顏色常數
+        const DISNEY_COLOR = '#1E88E5';
+        const NETFLIX_COLOR = '#E53935';
+        const HULU_ESPN_COLOR = '#43A047';
+        
+        // 共用圖表設置
+        Chart.defaults.font.family = '"Microsoft JhengHei", Arial, sans-serif';
+        Chart.defaults.font.size = 14;
+        Chart.defaults.color = '#333';
+        
+        // 年度收入數據 (2019-2024)
+        const revenueData = {
+            labels: ['2019', '2020', '2021', '2022', '2023', '2024 (預估)'],
+            datasets: [
+                {
+                    label: '迪士尼',
+                    data: [69570, 65388, 67418, 82722, 89300, 91400],
+                    backgroundColor: DISNEY_COLOR,
+                    borderColor: DISNEY_COLOR
+                },
+                {
+                    label: 'Netflix',
+                    data: [20156, 24996, 29698, 31615, 33510, 37700],
+                    backgroundColor: NETFLIX_COLOR,
+                    borderColor: NETFLIX_COLOR
+                }
+            ]
+        };
+
+        // 串流訂閱用戶數據 (2022-2024)
+        const subscribersData = {
+            labels: ['2022 Q4', '2023 Q2', '2023 Q4', '2024 Q2'],
+            datasets: [
+                {
+                    label: 'Disney+',
+                    data: [118, 146, 158, 168],
+                    backgroundColor: 'transparent',
+                    borderColor: DISNEY_COLOR,
+                    tension: 0.3,
+                    pointBackgroundColor: DISNEY_COLOR
+                },
+                {
+                    label: 'Hulu+ESPN+',
+                    data: [57, 64, 68, 72],
+                    backgroundColor: 'transparent',
+                    borderColor: HULU_ESPN_COLOR,
+                    tension: 0.3,
+                    pointBackgroundColor: HULU_ESPN_COLOR
+                },
+                {
+                    label: 'Netflix',
+                    data: [223, 238, 247, 270],
+                    backgroundColor: 'transparent',
+                    borderColor: NETFLIX_COLOR,
+                    tension: 0.3,
+                    pointBackgroundColor: NETFLIX_COLOR
+                }
+            ]
+        };
+
+        // 內容支出數據
+        const contentSpendData = {
+            labels: ['2019', '2020', '2021', '2022', '2023', '2024 (預估)'],
+            datasets: [
+                {
+                    label: '迪士尼',
+                    data: [27800, 17500, 25100, 30600, 29900, 25000],
+                    backgroundColor: 'transparent',
+                    borderColor: DISNEY_COLOR,
+                    tension: 0.2,
+                    pointBackgroundColor: DISNEY_COLOR
+                },
+                {
+                    label: 'Netflix',
+                    data: [13900, 15800, 17700, 16800, 17200, 17000],
+                    backgroundColor: 'transparent',
+                    borderColor: NETFLIX_COLOR,
+                    tension: 0.2,
+                    pointBackgroundColor: NETFLIX_COLOR
+                }
+            ]
+        };
+
+        // 收入來源分佈 - 迪士尼
+        const disneyRevenueSourcesData = {
+            labels: ['主題樂園與體驗', '媒體與娛樂', '串流服務', '消費產品'],
+            datasets: [{
+                data: [31.9, 37.2, 22.8, 8.1],
+                backgroundColor: ['#1E88E5', '#42A5F5', '#90CAF9', '#BBDEFB']
+            }]
+        };
+
+        // 收入來源分佈 - Netflix
+        const netflixRevenueSourcesData = {
+            labels: ['訂閱費（無廣告）', '訂閱費（廣告支援）', '廣告收入', '其他（遊戲等）'],
+            datasets: [{
+                data: [85.3, 8.7, 2.5, 3.5],
+                backgroundColor: ['#D32F2F', '#EF5350', '#FFCDD2', '#FFEBEE']
+            }]
+        };
+
+        // 平均訂閱收入數據
+        const arpuData = {
+            labels: ['北美', '歐洲', '亞太', '拉美'],
+            datasets: [
+                {
+                    label: 'Disney+',
+                    data: [7.5, 6.2, 3.8, 4.1],
+                    backgroundColor: DISNEY_COLOR
+                },
+                {
+                    label: 'Netflix',
+                    data: [16.8, 11.3, 8.2, 9.7],
+                    backgroundColor: NETFLIX_COLOR
+                }
+            ]
+        };
+
+        // 市值比較數據
+        const marketCapData = {
+            labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
+            datasets: [
+                {
+                    label: '迪士尼',
+                    data: [260, 167, 253, 163, 159, 195],
+                    backgroundColor: 'transparent',
+                    borderColor: DISNEY_COLOR,
+                    tension: 0.3,
+                    pointBackgroundColor: DISNEY_COLOR
+                },
+                {
+                    label: 'Netflix',
+                    data: [148, 239, 265, 128, 197, 245],
+                    backgroundColor: 'transparent',
+                    borderColor: NETFLIX_COLOR,
+                    tension: 0.3,
+                    pointBackgroundColor: NETFLIX_COLOR
+                }
+            ]
+        };
+
+        // 創建圖表
+        window.onload = function() {
+            // 年度營收圖表
+            new Chart(document.getElementById('revenueChart'), {
+                type: 'bar',
+                data: revenueData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '百萬美元'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 串流訂閱用戶圖表
+            new Chart(document.getElementById('subscribersChart'), {
+                type: 'line',
+                data: subscribersData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '百萬訂閱用戶'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 內容支出圖表
+            new Chart(document.getElementById('contentSpendChart'), {
+                type: 'line',
+                data: contentSpendData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '百萬美元'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 迪士尼收入來源分佈圖表
+            new Chart(document.getElementById('disneyRevenueSourcesChart'), {
+                type: 'pie',
+                data: disneyRevenueSourcesData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.raw}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Netflix收入來源分佈圖表
+            new Chart(document.getElementById('netflixRevenueSourcesChart'), {
+                type: 'pie',
+                data: netflixRevenueSourcesData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.raw}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 平均訂閱收入圖表
+            new Chart(document.getElementById('arpuChart'), {
+                type: 'bar',
+                data: arpuData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '每月平均收入(美元)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 市值比較圖表
+            new Chart(document.getElementById('marketCapChart'), {
+                type: 'line',
+                data: marketCapData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: '十億美元'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
