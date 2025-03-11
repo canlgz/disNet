@@ -4,32 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>迪士尼與Netflix發展時間軸</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        body {
-            font-family: "Microsoft JhengHei", Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-        }
-        .description {
-            color: #666;
-            margin-bottom: 30px;
-            text-align: center;
-        }
         .legend {
             display: flex;
             justify-content: center;
@@ -173,18 +149,22 @@
             color: #6B7280;
             font-style: italic;
         }
-        .footer {
-            margin-top: 40px;
-            text-align: center;
-            font-size: 14px;
-            color: #9CA3AF;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>迪士尼與Netflix發展時間軸</h1>
-        <p class="description">本時間軸呈現了迪士尼與Netflix從創立至今的關鍵發展事件，包含財務數據與重要里程碑</p>
+        
+        <!-- 主導航選單 -->
+        <nav class="main-nav">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="index.html" class="nav-link">首頁</a></li>
+                <li class="nav-item"><a href="timeline.html" class="nav-link active">發展時間軸</a></li>
+                <li class="nav-item"><a href="financial-comparison.html" class="nav-link">財務分析</a></li>
+            </ul>
+        </nav>
+        
+        <p class="description summary-box">本時間軸呈現了迪士尼與Netflix從創立至今的關鍵發展事件，包含財務數據與重要里程碑。從迪士尼1923年成立到Netflix發跡，再到兩者在串流平台的競爭，完整展現這兩大娛樂巨頭的演進故事。</p>
         
         <div class="legend">
             <div class="legend-item">
@@ -206,7 +186,7 @@
         </div>
         
         <div class="footer">
-            <p>© 2025 時間軸分析 | 資料更新至2024年10月</p>
+            <p>© 2025 Disney與Netflix演進脈絡研究 | 資料更新至2024年10月</p>
         </div>
     </div>
 

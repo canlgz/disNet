@@ -6,32 +6,8 @@
     <title>迪士尼與Netflix財務與市場數據比較</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        body {
-            font-family: "Microsoft JhengHei", Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-        }
-        .description {
-            color: #666;
-            margin-bottom: 30px;
-            text-align: center;
-        }
         .charts-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -84,12 +60,6 @@
             font-weight: bold;
             color: #1a56db;
         }
-        .footer {
-            margin-top: 40px;
-            text-align: center;
-            font-size: 14px;
-            color: #999;
-        }
         .company-colors {
             display: flex;
             justify-content: center;
@@ -120,7 +90,17 @@
 <body>
     <div class="container">
         <h1>迪士尼與Netflix財務與市場數據比較</h1>
-        <p class="description">本分析比較兩大娛樂巨頭在營收、訂閱用戶、內容投資等方面的數據 (2019-2024)</p>
+        
+        <!-- 主導航選單 -->
+        <nav class="main-nav">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="index.html" class="nav-link">首頁</a></li>
+                <li class="nav-item"><a href="timeline.html" class="nav-link">發展時間軸</a></li>
+                <li class="nav-item"><a href="financial-comparison.html" class="nav-link active">財務分析</a></li>
+            </ul>
+        </nav>
+        
+        <p class="summary-box">本分析比較兩大娛樂巨頭在營收、訂閱用戶、內容投資等方面的數據 (2019-2024)。透過圖表直觀呈現兩者的財務表現、市場策略差異及未來發展趨勢。</p>
         
         <div class="company-colors">
             <div class="color-item">
@@ -202,7 +182,7 @@
         </div>
         
         <div class="footer">
-            <p>© 2025 財務數據分析 | 資料來源：公司財報、行業報告 | 更新至2024年10月</p>
+            <p>© 2025 Disney與Netflix演進脈絡研究 | 資料來源：公司財報、行業報告 | 更新至2024年10月</p>
         </div>
     </div>
 
